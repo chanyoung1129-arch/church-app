@@ -2,335 +2,255 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#2b579a">
-    <title>청소년부 AI 목양 출석부</title>
-    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>청소년부 목양 매니저</title>
+    <!-- Tailwind CSS 및 FontAwesome 아이콘 로드 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: sans-serif; background-color: #f4f6f9; padding: 10px; color: #333; margin: 0; }
-        .box { max-width: 100%; margin: 0 auto; background: white; padding: 15px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0,0,0,0.05); box-sizing: border-box; }
-        header { text-align: center; margin-bottom: 15px; background: #2b579a; color: white; padding: 12px; border-radius: 8px; }
-        .reset-box { margin: 10px 0; padding: 8px; background-color: #fee2e2; border: 1px dashed #ef4444; border-radius: 8px; text-align: center; }
-        .mega-btn { background-color: #ef4444; color: white; font-size: 13px; font-weight: bold; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; width: 100%; }
-        .panel { border: 1px solid #ccc; padding: 12px; border-radius: 8px; margin-bottom: 12px; background: #fafafa; }
-        .counsel-card { background: #fff; padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
-        .counsel-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; font-size: 12px; line-height: 1.5; }
-        .badge { padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; white-space: nowrap; color: white; }
-        .badge-danger { background-color: #ef4444; }
-        .badge-warning { background-color: #f97316; }
-        .badge-info { background-color: #eab308; }
-        .badge-purple { background-color: #8b5cf6; }
-        .class-selector { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 5px; }
-        .class-btn { flex: 0 0 auto; min-width: 85px; padding: 10px 10px; background: #e0e0e0; border: none; border-radius: 6px; font-weight: bold; font-size: 13px; }
-        .class-btn.active { background: #2b579a; color: white; }
-        .student-item { display: flex; flex-direction: column; padding: 12px 5px; border-bottom: 1px solid #eee; gap: 6px; }
-        .student-top { display: flex; justify-content: space-between; align-items: center; }
-        .input-field { width: 100%; padding: 8px; font-size: 13px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; margin-top: 4px; }
-        .reason-input { border-color: #e67e22; background-color: #fffaf0; }
-        .pray-input { border-color: #3498db; background-color: #f0f8ff; }
-        .btn-save { background: #2ecc71; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; margin-top: 15px; }
-        .switch { position: relative; display: inline-block; width: 60px; height: 28px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e74c3c; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #2ecc71; }
-        input:checked + .slider:before { transform: translateX(32px); }
-        .hidden { display: none !important; }
-        .loading { text-align: center; font-weight: bold; color: #2b579a; padding: 20px; }
-        .ai-report-box { background: #f0fdf4; border: 1px dashed #22c55e; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 12px; line-height: 1.6; color: #14532d; }
+        body { -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased pb-12">
 
-<div class="box">
-    <header>
-        <h2>⛪ 청소년부 AI 목양 출석부</h2>
-        <p style="font-size:11px; margin-top:5px; opacity:0.8;">특이사항 및 학사일정 마스터 연동판</p>
+    <!-- 상단 헤더 영역 -->
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-4 pt-5 pb-5 rounded-b-2xl shadow-md sticky top-0 z-50">
+        <div class="flex justify-between items-center max-w-md mx-auto">
+            <div>
+                <span class="text-xs font-bold bg-blue-500/50 px-2 py-0.5 rounded-full uppercase tracking-wider text-blue-100">Church Manager</span>
+                <h1 class="text-xl font-black tracking-tight mt-0.5 flex items-center gap-2">
+                    <i class="fa-solid fa-church text-amber-300 text-lg"></i> 청소년부 목양 앱
+                </h1>
+            </div>
+            <button onclick="toggleSetupModal()" class="w-9 h-9 flex items-center justify-center bg-white/10 hover:bg-white/20 active:scale-95 transition rounded-xl text-white">
+                <i class="fa-solid fa-gear text-lg"></i>
+            </button>
+        </div>
     </header>
 
-    <div class="reset-box">
-        <button class="mega-btn" onclick="forceReset()">⚙️ 구글 주소 재연동하기</button>
-    </div>
-
-    <div id="url-panel" class="panel">
-        <label style="font-size:11px; font-weight:bold; color:#555;">🔗 구글 웹앱 URL 입력</label>
-        <div style="display:flex; gap:8px; margin-top:5px;">
-            <input type="text" id="input-url" placeholder="주소 붙여넣기" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
-            <button onclick="saveUrl()" style="padding:10px 15px; background:#2b579a; color:white; border:none; border-radius:6px; font-weight:bold;">연결</button>
-        </div>
-    </div>
-
-    <div id="loading-txt" class="loading hidden">🔄 AI가 데이터를 로딩 및 연동 중입니다...</div>
-
-    <div id="app-content" class="hidden">
+    <main class="max-w-md mx-auto px-4 mt-4 space-y-4">
         
-        <div class="panel" style="background-color: #f3f4f6; border: 1px solid #d1d5db;">
-            <h4 style="margin: 0 0 8px 0; font-size: 13px; color: #374151;">📅 청소년부 학사 / 시험 일정 등록</h4>
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-                <div style="display: flex; gap: 4px;">
-                    <input type="date" id="sched-date" style="width: 40%; padding: 6px; font-size: 12px; border-radius: 4px; border:1px solid #ccc;">
-                    <input type="text" id="sched-event" placeholder="예: 천안고 중간고사, 체육대회" style="width: 60%; padding: 6px; font-size: 12px; border-radius: 4px; border:1px solid #ccc;">
+        <!-- [학사일정 탭 연동] 기간제 학사 및 사역 일정 섹션 -->
+        <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-calendar-days text-amber-500"></i> 주요 학사 및 사역 일정
+            </h2>
+            <div id="calendarScheduleBox" class="space-y-2 max-h-36 overflow-y-auto no-scrollbar">
+                <p class="text-xs text-slate-400 text-center py-2">일정을 불러오는 중입니다...</p>
+            </div>
+        </section>
+
+        <!-- [학생명단 탭 연동] 목양 반 선택 탭 -->
+        <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-users text-blue-500"></i> 목양 반 선택
+            </h2>
+            <div id="classTabs" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+                <div class="animate-pulse bg-slate-200 h-9 w-20 rounded-xl"></div>
+            </div>
+        </section>
+
+        <!-- [기도제목 탭 연동] AI 주간 목양 리포트 브리핑 -->
+        <section class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-5 rounded-2xl shadow-lg border border-indigo-950 relative overflow-hidden">
+            <div class="absolute -right-6 -bottom-6 text-white/5 text-8xl pointer-events-none">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div class="flex justify-between items-start mb-3">
+                <h2 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Gemini AI 목양 분석 브리핑
+                </h2>
+                <span id="reportTarget" class="text-xs bg-indigo-500/30 text-indigo-200 px-2 py-0.5 rounded-md font-medium">선택 대기 중</span>
+            </div>
+            <div id="aiReportBox" class="text-sm leading-relaxed min-h-[80px] flex flex-col justify-center">
+                <p class="text-slate-400 text-center py-4"><i class="fa-solid fa-circle-info mr-1"></i> 반을 선택하면 AI가 시트의 기도제목을 분석합니다.</p>
+            </div>
+        </section>
+
+        <!-- [통합 리스트] 학생 명단 및 출석 현황 / 기도제목 카드 -->
+        <section class="space-y-3">
+            <h2 class="text-xs font-bold text-slate-400 px-1 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-address-book text-indigo-500"></i> 학생 관리 리스트 (<span id="studentCount">0</span>명)
+            </h2>
+            <div id="studentContainer" class="space-y-3">
+                <!-- 학생 카드 리스트가 동적으로 꽂히는 공간 -->
+            </div>
+        </section>
+    </main>
+
+    <!-- 구글 웹앱 주소 설정 변경 모달 창 -->
+    <div id="setupModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-end justify-center p-4 hidden" onclick="toggleSetupModal()">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transition-all transform" onclick="event.stopPropagation()">
+            <div class="px-5 pt-5 pb-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-link text-blue-600"></i> 구글 시스템 연동 설정</h3>
+                <button onclick="toggleSetupModal()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-slate-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-5 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">구글 Apps Script 웹 앱 URL</label>
+                    <input type="text" id="webAppUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono">
+                    <p class="text-[11px] text-slate-400 mt-1.5 leading-normal"><i class="fa-solid fa-circle-info mr-0.5"></i> 새 배포로 발급된 웹앱 주소를 정확히 넣어주세요.</p>
                 </div>
-                <button onclick="addSchedule()" style="padding: 6px; background: #4b5563; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer;">📌 일정 시트에 등록하기</button>
+                <button onclick="saveWebAppUrl()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md">
+                    설정 저장 및 시스템 동기화
+                </button>
             </div>
         </div>
+    </div>
 
-        <p style="font-size:11px; font-weight:bold; margin-bottom:5px; color:#555;">👤 담임 선생님 선택</p>
-        <div class="class-selector" id="class-selector-box"></div>
-
-        <div class="counsel-card">
-            <h4 style="color:#1e3a8a; margin:0 0 10px 0; font-size:14px; border-bottom:2px solid #2b579a; padding-bottom:5px;">📊 [ <span id="counsel-class-title">선생님</span> ] 반 목양 진단 리포트</h4>
-            <div id="counsel-box"></div>
-        </div>
-
-        <div class="panel">
-            <label style="font-size:11px; font-weight:bold;">예배/행사 날짜</label>
-            <input type="date" id="select-date" style="width:100%; padding:8px; margin-top:5px; border:1px solid #ccc; border-radius:6px;">
-        </div>
-
-        <div class="panel" style="max-height: 350px; overflow-y: auto; padding: 5px 10px;">
-            <div id="student-container"></div>
-        </div>
-
-        <button class="btn-save" id="save-btn-txt" onclick="sendToGoogle()">☁️ 결과 구글시트 저장</button>
-
-        <div class="ai-report-box">
-            <h3 style="margin: 0 0 8px 0; font-size: 14px; color: #166534;">🤖 Gemini AI 월간 기도제목 트렌드 브리핑</h3>
-            <div id="ai-report-text" style="white-space: pre-wrap;">데이터 분석 중...</div>
+    <!-- 통신 로딩 스피너 오버레이 -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] flex items-center justify-center hidden">
+        <div class="bg-white px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3">
+            <div class="w-5 h-5 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <span class="text-sm font-semibold text-slate-700">구글 서버 데이터 동기화 중...</span>
         </div>
     </div>
-</div>
 
-<script>
-    let API_URL = "";
-    let allStudents = [];
-    let filteredStudents = [];
-    let history = {};
-    let schedules = []; // 입력된 학사일정 배열 저장고
-    let currentTeacher = "";
-    let globalAiReport = "";
+    <!-- 프론트엔드 핵심 제어 로직 스크립트 -->
+    <script>
+        let webAppUrl = localStorage.getItem('CHURCH_WEB_APP_URL') || '';
+        let currentClass = '';
+        let serverData = null;
 
-    window.onload = function() {
-        document.getElementById('select-date').value = new Date().toISOString().split('T')[0];
-        document.getElementById('sched-date').value = new Date().toISOString().split('T')[0];
-        const saved = localStorage.getItem('ts_attendance_url');
-        if (saved) {
-            API_URL = saved;
-            document.getElementById('input-url').value = saved;
-            document.getElementById('url-panel').classList.add('hidden');
-            loadData();
-        }
-    };
-
-    function forceReset() {
-        localStorage.removeItem('ts_attendance_url');
-        location.reload();
-    }
-
-    function saveUrl() {
-        const val = document.getElementById('input-url').value.trim();
-        if (!val) return;
-        API_URL = val;
-        localStorage.setItem('ts_attendance_url', val);
-        document.getElementById('url-panel').classList.add('hidden');
-        loadData();
-    }
-
-    function loadData() {
-        document.getElementById('loading-txt').classList.remove('hidden');
-        fetch(API_URL)
-        .then(res => res.json())
-        .then(resData => {
-            document.getElementById('loading-txt').classList.add('hidden');
-            if (resData.status === "success") {
-                allStudents = resData.students;
-                history = resData.history || {};
-                schedules = resData.schedules || []; // 구글 시트에서 학사 일정 읽어오기 완료
-                globalAiReport = resData.aiReport || "기도제목 데이터가 모이면 활성화됩니다.";
-                document.getElementById('ai-report-text').innerText = globalAiReport;
-                
-                const teachers = [...new Set(allStudents.map(s => s.grade))].sort();
-                const btnBox = document.getElementById('class-selector-box');
-                btnBox.innerHTML = "";
-                teachers.forEach((tName, i) => {
-                    const activeClass = i === 0 ? "active" : "";
-                    if(i === 0) currentTeacher = tName; 
-                    btnBox.innerHTML += `<button class="class-btn ${activeClass}" id="btn-tea-${i}" onclick="selectTeacher('${tName}', ${i})">${tName} 쌤</button>`;
-                });
-                changeTeacherView();
-                document.getElementById('app-content').classList.remove('hidden');
-            } else {
-                alert("실패: " + resData.message);
-                forceReset();
-            }
-        }).catch(() => {
-            document.getElementById('loading-txt').classList.add('hidden');
-            forceReset();
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!webAppUrl) { toggleSetupModal(); } else { fetchInitialData(); }
         });
-    }
 
-    // [신규] 앱에서 입력한 시험/특이사항 일정을 구글 시트에 바로 등록하는 함수
-    function addSchedule() {
-        const sDate = document.getElementById('sched-date').value;
-        const sEvent = document.getElementById('sched-event').value.trim();
-        if(!sEvent) { alert("일정 명칭(예: OO고 중간고사)을 입력해주세요!"); return; }
+        function showLoading(show) { document.getElementById('loadingOverlay').classList.toggle('hidden', !show); }
         
-        document.getElementById('loading-txt').classList.remove('hidden');
-        fetch(API_URL, {
-            method: "POST", mode: "no-cors",
-            body: JSON.stringify({ action: "addSchedule", date: sDate, event: sEvent })
-        }).then(() => {
-            document.getElementById('loading-txt').classList.add('hidden');
-            document.getElementById('sched-event').value = "";
-            alert("📌 특이사항(학사 일정)이 시트에 성공적으로 등록되었습니다!");
-            loadData(); // 최신 일정으로 앱 다시 동기화
-        }).catch(() => {
-            document.getElementById('loading-txt').classList.add('hidden');
-            alert("일정 등록 실패!");
-        });
-    }
+        function toggleSetupModal() {
+            const modal = document.getElementById('setupModal');
+            document.getElementById('webAppUrlInput').value = webAppUrl;
+            modal.classList.toggle('hidden');
+        }
 
-    function selectTeacher(tName, btnIdx) {
-        currentTeacher = tName;
-        document.querySelectorAll('.class-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(`btn-tea-${btnIdx}`).classList.add('active');
-        changeTeacherView();
-    }
+        function saveWebAppUrl() {
+            let inputUrl = document.getElementById('webAppUrlInput').value.trim();
+            if(!inputUrl) return alert('연동할 구글 웹 앱 주소를 넣어주세요.');
+            localStorage.setItem('CHURCH_WEB_APP_URL', inputUrl);
+            webAppUrl = inputUrl;
+            toggleSetupModal();
+            fetchInitialData();
+        }
 
-    function changeTeacherView() {
-        filteredStudents = allStudents.filter(s => s.grade === currentTeacher);
-        document.getElementById('counsel-class-title').innerText = currentTeacher;
-        document.getElementById('save-btn-txt').innerText = `☁️ [${currentTeacher} 쌤] 결과 저장`;
-        buildList();
-        buildCounsel();
-    }
+        // 구글 백엔드로부터 데이터 수집 원격 호출
+        async function fetchInitialData() {
+            if (!webAppUrl) return;
+            showLoading(true);
+            try {
+                const response = await fetch(webAppUrl + '?action=getInitialData');
+                const result = await response.json();
+                if(result.status === 'success') {
+                    serverData = result.data;
+                    renderClassTabs(result.data.classes);
+                    renderSchedules(result.data.schedules); 
+                } else {
+                    alert('데이터 로드 실패: ' + result.message);
+                }
+            } catch (error) {
+                alert('구글 서버와 통신할 수 없습니다. 주소 및 권한 설정을 점검해 주세요.');
+            } finally { showLoading(false); }
+        }
 
-    function buildList() {
-        const con = document.getElementById('student-container');
-        con.innerHTML = "";
-        filteredStudents.forEach((s, index) => {
-            con.innerHTML += `
-                <div class="student-item">
-                    <div class="student-top">
-                        <div><strong>${s.name}</strong></div>
-                        <div>
-                            <label class="switch">
-                                <input type="checkbox" class="chk" data-name="${s.name}" id="chk-${index}" onchange="toggleReason(${index})">
-                                <span class="slider"></span>
-                            </label>
+        // 기간 학사 일정을 최상단에 뿌려주는 기능
+        function renderSchedules(schedules) {
+            const box = document.getElementById('calendarScheduleBox');
+            if(!schedules || schedules.length === 0) {
+                box.innerHTML = '<p class="text-xs text-slate-400 text-center py-2"><i class="fa-solid fa-info-circle mr-1"></i> 현재 등록된 주요 일정이 없습니다.</p>';
+                return;
+            }
+            
+            box.innerHTML = schedules.map(sch => {
+                const dateDisplay = sch.start === sch.end 
+                    ? `<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[11px] font-bold font-mono">${sch.start}</span>`
+                    : `<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[11px] font-bold font-mono">${sch.start} ~ ${sch.end}</span>`;
+                
+                return `
+                    <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                        <span class="font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-regular fa-bell text-amber-500"></i> ${sch.content}</span>
+                        ${dateDisplay}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderClassTabs(classes) {
+            const container = document.getElementById('classTabs');
+            container.innerHTML = classes.map((className, idx) => {
+                const isSelected = currentClass === className || (!currentClass && idx === 0);
+                if(isSelected && !currentClass) currentClass = className;
+                return `<button onclick="selectClass('${className}')" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition active:scale-95 ${isSelected ? 'bg-blue-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${className}</button>`;
+            }).join('');
+            if(currentClass) selectClass(currentClass);
+        }
+
+        // 반 선택 시 학생 명단 + [출석배지] + [기도제목] 융합 카드 출력
+        function selectClass(className) {
+            currentClass = className;
+            renderClassTabs(serverData.classes);
+            document.getElementById('reportTarget').innerText = className;
+            
+            const students = serverData.students.filter(s => s.grade === className);
+            document.getElementById('studentCount').innerText = students.length;
+            
+            const container = document.getElementById('studentContainer');
+            if(students.length === 0) {
+                container.innerHTML = '<div class="text-center py-8 text-xs text-slate-400 bg-white rounded-2xl border border-dashed">이 반에 소속된 학생이 없습니다.</div>';
+                return;
+            }
+            
+            container.innerHTML = students.map(student => {
+                const prayers = serverData.prayers.filter(p => p.name === student.name);
+                
+                // 출석 상태별 배지 색상 지정 로직
+                let attBadgeColor = "bg-slate-100 text-slate-500";
+                if(student.attStatus === "출석") attBadgeColor = "bg-emerald-100 text-emerald-700 font-extrabold";
+                if(student.attStatus === "결석") attBadgeColor = "bg-rose-100 text-rose-700 font-extrabold";
+                if(student.attStatus === "지각") attBadgeColor = "bg-amber-100 text-amber-700 font-extrabold";
+
+                let prayerHtml = prayers.map(p => `
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-xs text-slate-700 relative mt-1">
+                        <span class="absolute right-2 top-2 text-[9px] font-mono text-slate-400">${p.date}</span>
+                        <div class="font-bold text-slate-400 mb-0.5 flex items-center gap-1"><i class="fa-solid fa-heart text-rose-400 text-[10px]"></i> 기도제목</div>
+                        <p class="pr-12 leading-relaxed">${p.content}</p>
+                    </div>
+                `).join('');
+                
+                return `
+                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center font-bold text-sm text-blue-600">${student.name[0]}</div>
+                                <span class="font-bold text-slate-800 text-base">${student.name}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] text-slate-400 block font-mono mb-0.5">${student.attDate ? student.attDate + ' 기준' : ''}</span>
+                                <span class="px-2.5 py-1 rounded-lg text-xs ${attBadgeColor}">${student.attStatus}</span>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            ${prayerHtml || '<p class="text-xs text-slate-300 italic text-center py-2">최근 누적된 기도제목 사역 기록이 없습니다.</p>'}
                         </div>
                     </div>
-                    <div id="reason-box-${index}">
-                        <span class="input-label">🔸 결석 사유</span>
-                        <input type="text" class="input-field reason-input" id="reason-${index}" placeholder="결석 사유 입력">
-                    </div>
-                    <div>
-                        <span class="input-label">🔹 이번 주 기도제목</span>
-                        <input type="text" class="input-field pray-input" id="pray-${index}" placeholder="기도제목 입력">
-                    </div>
-                </div>`;
-        });
-    }
-
-    function toggleReason(index) {
-        const chk = document.getElementById(`chk-${index}`);
-        const reasonBox = document.getElementById(`reason-box-${index}`);
-        if (chk.checked) reasonBox.style.opacity = "0.3"; else reasonBox.style.opacity = "1";
-    }
-
-    // 🔮 구글 시트의 [학사일정] 실데이터와 매칭하는 하이엔드 AI 예측 엔진
-    function buildCounsel() {
-        const box = document.getElementById('counsel-box');
-        box.innerHTML = "";
-        let alertCount = 0;
-
-        const selectDateVal = document.getElementById('select-date').value;
-        const appDate = new Date(selectDateVal);
-
-        // 현재 선택한 앱 날짜 기준 전후 7일 이내에 '시험' 일정이 등록되어 있는지 스캔
-        let examNotice = "";
-        schedules.forEach(sch => {
-            const schDate = new Date(sch.date);
-            const diffTime = Math.abs(appDate - schDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays <= 7 && (sch.event.includes("시험") || sch.event.includes("고사"))) {
-                examNotice = sch.event; // 근접한 시험 일정 발견!
-            }
-        });
-
-        filteredStudents.forEach(s => {
-            const h = history[s.name] || [];
-            if (h.length === 0) return;
-            const len = h.length;
-            const recent8 = h.slice(-8);
-            const recent4 = h.slice(-4);
-            const r4Len = recent4.length;
-
-            // [패턴 1] 🔴 위험 등급
-            if (r4Len >= 3 && !recent4[r4Len-1] && !recent4[r4Len-2] && !recent4[r4Len-3]) {
-                alertCount++;
-                box.innerHTML += `
-                    <div class="counsel-row">
-                        <span class="badge badge-danger">🔴 위험</span>
-                        <div><strong>${s.name}</strong>: 3주 연속 장기 결석 중입니다. 주중에 긴밀한 심방 연락이 필요합니다.</div>
-                    </div>`;
-            } 
-            // [패턴 2] 🔮 입력된 실데이터 기반!! 시험기간 매칭 확률 80% 예측 경고
-            else if (examNotice && r4Len >= 1 && !recent4[r4Len-1] && recent8.filter(v=>v===false).length >= 2) {
-                alertCount++;
-                box.innerHTML += `
-                    <div class="counsel-row">
-                        <span class="badge badge-purple">🔮 예측</span>
-                        <div><strong>${s.name}</strong>: 등록된 학사일정 [<strong>${examNotice}</strong>] 연동 결과, <span style="color:#7c3aed; font-weight:bold;">이번 주 결석 확률 80% 이상입니다!</span> 과거 시험철마다 이탈률이 높은 학생입니다. 부담 주지 않는 특별 심방(안부 톡)을 준비해 주세요.</div>
-                    </div>`;
-            }
-            // [패턴 3] 🟠 경고 등급
-            else if ((r4Len >= 2 && !recent4[r4Len-1] && !recent4[r4Len-2]) || (r4Len >= 4 && recent4.filter(v=>v===false).length >= 2 && !recent4[r4Len-1])) {
-                alertCount++;
-                box.innerHTML += `
-                    <div class="counsel-row">
-                        <span class="badge badge-warning">🟠 경고</span>
-                        <div><strong>${s.name}</strong>: 최근 출석 빈도가 눈에 띄게 하락했습니다. 오늘 꼭 따뜻하게 이름을 부르며 격려해 주세요.</div>
-                    </div>`;
-            }
-        });
-
-        if (alertCount === 0) {
-            box.innerHTML = `<div style='color:#1e3a8a; text-align:center; padding:10px;'>🎉 현재 분석된 특별 이탈 징후가 없습니다. 모두 안정적인 흐름입니다!</div>`;
+                `;
+            }).join('');
+            
+            fetchAiReport(className);
         }
-    }
 
-    function sendToGoogle() {
-        const dVal = document.getElementById('select-date').value;
-        const present = []; const absent = []; const reasons = {}; const prays = {};
-        document.querySelectorAll('.chk').forEach(c => {
-            const name = c.getAttribute('data-name');
-            if (c.checked) present.push(name); else absent.push(name);
-        });
-        filteredStudents.forEach((s, index) => {
-            const chk = document.getElementById(`chk-${index}`);
-            if (!chk.checked) reasons[s.name] = document.getElementById('reason-'+index).value.trim();
-            const pVal = document.getElementById('pray-'+index).value.trim();
-            if(pVal) prays[s.name] = pVal;
-        });
-        document.getElementById('loading-txt').classList.remove('hidden');
-        fetch(API_URL, {
-            method: "POST", mode: "no-cors",
-            body: JSON.stringify({ 
-                date: dVal, selectedClass: currentTeacher, 
-                presentCount: present.length, presentStudents: present, 
-                absentStudents: absent, absentReasons: reasons, prayRequests: prays
-            })
-        }).then(() => {
-            document.getElementById('loading-txt').classList.add('hidden');
-            alert(`🎉 저장 완료!`);
-            loadData();
-        }).catch(() => {
-            document.getElementById('loading-txt').classList.add('hidden');
-            alert("저장 오류!");
-        });
-    }
-</script>
+        // Gemini AI 리포트 브리핑 수집 호출
+        async function fetchAiReport(className) {
+            const reportBox = document.getElementById('aiReportBox');
+            reportBox.innerHTML = '<div class="flex items-center justify-center py-3 gap-2"><div class="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div><p class="text-xs text-indigo-300 animate-pulse">Gemini AI 목양 분석 진행 중...</p></div>';
+            try {
+                const response = await fetch(`${webAppUrl}?action=getAiReport&className=${encodeURIComponent(className)}`);
+                const result = await response.json();
+                if(result.status === 'success') {
+                    reportBox.innerHTML = `<div class="text-xs md:text-sm text-indigo-100 font-medium leading-relaxed">${result.report.replace(/\n/g, '<br>')}</div>`;
+                } else { reportBox.innerHTML = `<p class="text-rose-300 text-xs text-center">📊 분석 요약 리포트를 불러오지 못했습니다.</p>`; }
+            } catch (error) { reportBox.innerHTML = `<p class="text-rose-300 text-xs text-center">구글 통신 이상으로 리포트 생성 실패</p>`; }
+        }
+    </script>
 </body>
 </html>
